@@ -1,0 +1,129 @@
+Nama : Ulayya Aqilah
+NIM : 24241148
+Kelas : D
+Modul : 4
+
+-- ORDER BY dengan satu kolom
+SELECT nama_produk, qty FROM penjualan ORDER BY qty;
+
+-- ORDER BY dengan dua kolom
+SELECT nama_produk, qty FROM penjualan ORDER BY qty, nama_produk;
+
+-- Latihan Mandiri 
+-- soal 1
+SELECT * FROM penjualan
+ORDER BY qty, tgl_transaksi;
+
+-- soal 2
+SELECT * FROM pelanggan 
+ORDER BY nama_pelanggan;
+
+-- soal 3
+SELECT * FROM pelanggan 
+ORDER BY alamat;
+
+-- Menggunakan DESC pada ORDER BY
+SELECT nama_produk, qty FROM tr_penjualan_dqlab ORDER BY qty DESC;
+
+-- Menggunakan ASC dan DESC pada dua kolom
+SELECT nama_produk, qty FROM penjualan ORDER BY qty DESC, nama_produk ASC;
+
+-- Latihan Mandiri 
+-- Soal 1
+SELECT * FROM penjualan
+ORDER BY tgl_transaksi DESC, qty ASC;
+
+-- soal 2
+SELECT * FROM pelanggan 
+ORDER BY nama_pelanggan DESC;
+
+-- soal 3
+SELECT * FROM pelanggan 
+ORDER BY alamat DESC;
+
+-- Menggunakan perhitungan pada ORDER BY
+SELECT nama_produk, qty, harga, qty*harga AS total FROM penjualan ORDER BY harga*qty DESC;
+
+-- Latihan Mandiri 
+-- Cobalah pengurutan dengan ekspresi total harga menggunakan rumusan jumlah barang dikali harga barang dikurangi diskon.
+SELECT * FROM penjualan
+ORDER BY (qty * harga) - diskon_persen DESC;
+
+-- Menggunakan WHERE pada ORDER BY
+SELECT nama_produk, qty FROM penjualan WHERE nama_produk LIKE 'F%' ORDER BY qty DESC;
+
+-- Latihan Mandiri 
+-- Soal 1
+SELECT * FROM penjualan 
+WHERE diskon_persen > 0
+ORDER BY harga DESC;
+
+-- Soal 2 
+SELECT nama_produk, qty, harga 
+FROM penjualan
+WHERE harga >= 100000 
+ORDER BY harga DESC;
+
+-- Soal 3
+SELECT nama_produk, qty, harga 
+FROM penjualan 
+WHERE harga >= 100000 OR nama_produk LIKE 'T%' 
+ORDER BY diskon_persen DESC;
+
+-- Menggunakan Fungsi Agregasi SUM
+SELECT SUM(qty) FROM penjualan;
+
+-- Menggunakan Fungsi Agregasi COUNT
+SELECT COUNT(*) FROM penjualan;
+
+-- Menggunakan SUM dan COUNT berbarengan
+SELECT SUM(qty), COUNT(*) FROM penjualan;
+
+-- Menggunakan Fungsi AVG, MAX, dan MIN
+SELECT AVG(qty), MAX(qty), MIN(qty) FROM penjualan;
+
+-- Menggunakan COUNT(DISTINCT)
+SELECT COUNT(DISTINCT nama_produk) FROM penjualan;
+
+-- Menggunakan COUNT(*) dan COUNT(DISTINCT)
+SELECT COUNT(*), COUNT(DISTINCT nama_produk) FROM penjualan;
+
+-- Penggunaan Field Lain + Fungsi Agregasi
+SELECT nama_produk, MAX(qty) FROM penjualan;
+
+-- Penggunaan GROUP BY satu kolom
+SELECT nama_produk FROM penjualan GROUP BY nama_produk;
+
+-- Penggunaan GROUP BY dua kolom
+SELECT nama_produk, diskon_persen FROM penjualan GROUP BY nama_produk,diskon_persen;
+
+-- GROUP BY + Fungsi Agregasi
+SELECT nama_produk, sum(qty) FROM penjualan GROUP BY nama_produk;
+
+-- GROUP BY + Fungsi Agregasi + ORDER BY
+SELECT nama_produk, sum(qty) FROM penjualan GROUP BY nama_produk ORDER BY sum(qty) DESC;
+
+-- Penggunaan HAVING
+SELECT nama_produk, sum(qty) FROM penjualan GROUP BY nama_produk HAVING sum(qty) > 2;
+
+-- Latihan Mandiri 
+-- Soal 1
+SELECT nama_produk
+FROM penjualan
+GROUP BY nama_produk
+HAVING SUM(qty) > 4;
+
+-- soal 2
+SELECT nama_produk
+FROM penjualan
+GROUP BY nama_produk
+HAVING SUM(qty) = 9;
+ 
+-- soal 3
+SELECT nama_produk, 
+SUM((harga * qty) - ((harga * qty) * (COALESCE(diskon_persen, 0) / 100))) AS total_nilai_penjualan
+FROM penjualan
+GROUP BY nama_produk
+ORDER BY total_nilai_penjualan DESC;
+
+
